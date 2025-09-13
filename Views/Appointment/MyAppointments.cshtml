@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MedWebApp.Models.Appointment>
+
+<h2>My Appointments</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appt in Model)
+        {
+            <tr>
+                <td>@appt.Doctor?.FirstName @appt.Doctor?.LastName</td>
+                <td>@appt.VisitDate.ToShortDateString()</td>
+                <td>@appt.VisitTime</td>
+                <td>@appt.Status</td>
+                <td>
+                    @if (appt.Status == Status.Pending)
+                    {
+                        <a asp-action="Edit" asp-route-id="@appt.AppointmentId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@appt.AppointmentId" class="btn btn-sm btn-primary">Details</a>
+                        <form asp-action="Delete" asp-route-id="@appt.AppointmentId" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Not editable</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

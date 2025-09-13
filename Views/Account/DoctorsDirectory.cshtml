@@ -1,0 +1,32 @@
+﻿@model IEnumerable<dynamic>
+
+<h2>Our Doctors</h2>
+
+<form id="searchForm">
+    <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search by first or last name" />
+    
+</form>
+
+<div id="doctorResults" class="mt-3">
+    @await Html.PartialAsync("_DoctorsTable", Model)
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            let timer;
+
+            $("#searchInput").on("input", function () {
+                clearTimeout(timer);
+                let searchValue = $(this).val();
+
+                // Wait 300ms after the user stops typing
+                timer = setTimeout(function () {
+                    $.get("@Url.Action("SearchDoctors", "Account")", { search: searchValue }, function (result) {
+                        $("#doctorResults").html(result);
+                    });
+                }, 300);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,39 @@
+﻿@model MedWebApp.Models.Appointment
+
+@{
+    ViewData["Title"] = "Edit Appointment";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<form asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model.AppointmentId" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="AppointmentId" />
+
+    <div class="form-group">
+        <label asp-for="VisitDate"></label>
+        <input asp-for="VisitDate" class="form-control" type="date"
+               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+               max="@DateTime.Today.AddMonths(9).ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="VisitDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="VisitTime"></label>
+        <input asp-for="VisitTime" class="form-control" type="time" step="1800" min="09:00" max="17:00" />
+        <span asp-validation-for="VisitTime" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

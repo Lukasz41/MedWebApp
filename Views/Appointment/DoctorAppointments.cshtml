@@ -1,0 +1,41 @@
+﻿@model List<MedWebApp.Models.Appointment>
+
+<h2>Appointments to Approve</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appt in Model)
+        {
+            <tr>
+                <td>@($"{appt.Patient?.FirstName} {appt.Patient?.LastName}")</td>
+                <td>@appt.VisitDate.ToShortDateString()</td>
+                <td>@appt.VisitTime</td>
+                <td>@appt.Status</td>
+                <td>
+                    @if (appt.Status == Status.Pending)
+                    {
+                        <form asp-action="UpdateStatus" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@appt.AppointmentId" />
+                            <input type="hidden" name="status" value="Accepted" />
+                            <button class="btn btn-success btn-sm">Accept</button>
+                        </form>
+                        <form asp-action="UpdateStatus" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@appt.AppointmentId" />
+                            <input type="hidden" name="status" value="Rejected" />
+                            <button class="btn btn-danger btn-sm">Reject</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

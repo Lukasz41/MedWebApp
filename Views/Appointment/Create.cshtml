@@ -1,0 +1,46 @@
+﻿@model MedWebApp.Models.Appointment
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Book an Appointment";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Appointment" asp-action="Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="VisitDate"></label>
+        <input asp-for="VisitDate" class="form-control" type="date"
+               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+               max="@DateTime.Today.AddMonths(9).ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="VisitDate" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group">
+        <label asp-for="VisitTime"></label>
+        <input asp-for="VisitTime" class="form-control" type="time" step="1800" min="09:00" max="17:00" />
+        <span asp-validation-for="VisitTime" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DoctorId">Doctor</label>
+        <select asp-for="DoctorId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Doctors, "Value", "Text"))">
+            <option value="">-- Select Doctor --</option>
+        </select>
+        <span asp-validation-for="DoctorId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Book</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

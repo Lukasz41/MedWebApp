@@ -1,0 +1,51 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var firstName = HttpContextAccessor?.HttpContext?.Session.GetString("FirstName");
+    bool isLoggedIn = !string.IsNullOrEmpty(firstName);
+}
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center">
+            <img src="~/images/image1.jpg"
+                 alt="Clinic building"
+                 class="img-fluid rounded shadow" />
+
+        </div>
+
+        
+        <div class="col-md-6">
+            <h2 class="mb-3">Welcome to MedWebApp Clinic</h2>
+            <p>We provide high-quality healthcare with a personal touch. Our team of trusted doctors and staff are here to support your well-being.</p>
+
+            <h5 class="mt-4">Opening Hours</h5>
+            <ul class="list-unstyled">
+                <li>Monday – Friday: <strong>9:00 AM – 5:00 PM</strong></li>
+                <li>Saturday & Sunday: <em>Closed</em></li>
+            </ul>
+
+            <h5 class="mt-4">Contact</h5>
+            <p>
+                Email: <a href="mailto:info@medwebapp.com">info@medwebapp.com</a><br />
+                Phone: <strong>01234 567890</strong>
+            </p>
+
+            <div class="mt-4">
+                @if (!isLoggedIn)
+                {
+                    <p>
+                        <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Register</a>
+                    </p>
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+

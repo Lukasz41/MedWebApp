@@ -1,0 +1,28 @@
+﻿@model IEnumerable<dynamic>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No doctors found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doctor in Model)
+            {
+                <tr>
+                    <td>@doctor.FirstName @doctor.LastName</td>
+                    <td>@doctor.Email</td>
+                    <td>@doctor.Phone</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
